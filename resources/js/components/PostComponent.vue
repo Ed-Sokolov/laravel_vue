@@ -14,7 +14,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="person in people" :key="person.id">
+            <tr v-for="person in peopleAgeLessThan28" :key="person.id">
                 <th scope="row">{{person.id}}</th>
                 <td>{{person.name}}</td>
                 <td>{{person.age}}</td>
@@ -51,8 +51,29 @@ export default {
                     name: 'Mark',
                     age: 27,
                     job: 'Blogger'
+                },
+                {
+                    id: 4,
+                    name: 'Olena',
+                    age: 29,
+                    job: 'Teacher'
+                },
+                {
+                    id: 5,
+                    name: 'Ben',
+                    age: 35,
+                    job: 'Actor'
                 }
             ]
+        }
+    },
+
+    computed: {
+        peopleAgeMoreThan28() {
+            return this.people.filter(person => person.age > 28);
+        },
+        peopleAgeLessThan28() {
+            return this.people.filter(person => person.age < 28);
         }
     },
 
