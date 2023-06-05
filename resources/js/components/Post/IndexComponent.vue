@@ -21,21 +21,21 @@
                     <td>{{ post.updated_at }}</td>
                     <td>
                         <div class="d-flex flex-column gap-2">
-                            <a href="#" @click.prevent="changeEditPostId(post.id)" class="btn btn-success">Edit</a>
+                            <a href="#" @click.prevent="changeEditPostId(post)" class="btn btn-success">Edit</a>
                         </div>
                     </td>
                 </tr>
                 <tr :class="isEdit(post.id) ? '' : 'd-none'">
                     <th scope="row">{{ post.id }}</th>
-                    <td><input type="text" class="form-control" id="title" placeholder="Enter title">
+                    <td><input type="text" v-model="title" class="form-control" id="title" placeholder="Enter title">
                     </td>
-                    <td><textarea class="form-control" id="text" rows="3"
+                    <td><textarea v-model="text" class="form-control" id="text" rows="3"
                                   placeholder="Enter text"></textarea></td>
                     <td>{{ post.created_at }}</td>
                     <td>{{ post.updated_at }}</td>
                     <td>
                         <div class="d-flex flex-column gap-2">
-                            <a href="#" @click.prevent="resetEditPostId" class="btn btn-success">Update</a>
+                            <a href="#" @click.prevent="updatePost(post.id)" class="btn btn-success">Update</a>
                             <a href="#" @click.prevent="resetEditPostId" class="btn btn-danger">Cancel</a>
                         </div>
                     </td>
@@ -53,7 +53,9 @@ export default {
     data() {
         return {
             posts: null,
-            editPostId: null
+            editPostId: null,
+            title: null,
+            text: null
         }
     },
 
@@ -71,12 +73,31 @@ export default {
 
                 })
         },
-        changeEditPostId(id) {
-            this.editPostId = id;
+
+        updatePost(postId) {
+            axios.patch(`api/posts/${postId}`, {
+                title: this.title,
+                text: this.text
+            })
+                .then(response => {
+                    this.resetEditPostId();
+                    this.getPosts();
+                })
         },
+
+        changeEditPostId(post) {
+            let {id, title, text} = post;
+            this.editPostId = id;
+            this.title = title;
+            this.text = text;
+        },
+
         resetEditPostId() {
             this.editPostId = null;
+            this.title = null;
+            this.text = null;
         },
+
         isEdit(id) {
             return this.editPostId === id;
         }

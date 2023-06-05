@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function() {
     Route::get('', 'IndexController')->name('posts.index');
     Route::post('', 'StoreController')->name('posts.store');
+    Route::patch('/{post}', 'UpdateController')->name('posts.update');
 });
