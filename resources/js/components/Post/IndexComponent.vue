@@ -22,6 +22,7 @@
                     <td>
                         <div class="d-flex flex-column gap-2">
                             <a href="#" @click.prevent="changeEditPostId(post)" class="btn btn-success">Edit</a>
+                            <a href="#" @click.prevent="destroyPost(post.id)" class="btn btn-danger">Delete</a>
                         </div>
                     </td>
                 </tr>
@@ -69,9 +70,6 @@ export default {
                 .then(response => {
                     this.posts = response.data;
                 })
-                .catch(error => {
-
-                })
         },
 
         updatePost(postId) {
@@ -81,6 +79,13 @@ export default {
             })
                 .then(response => {
                     this.resetEditPostId();
+                    this.getPosts();
+                })
+        },
+
+        destroyPost(postId) {
+            axios.delete(`api/posts/${postId}`)
+                .then(response => {
                     this.getPosts();
                 })
         },
