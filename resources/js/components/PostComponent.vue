@@ -7,7 +7,7 @@
             <CreateComponent></CreateComponent>
         </div>
         <div class="m-2">
-            <IndexComponent></IndexComponent>
+            <IndexComponent ref="index"></IndexComponent>
         </div>
     </div>
 </template>
@@ -22,7 +22,7 @@ export default {
     components: {
         CreateComponent,
         IndexComponent
-    }
+    },
 }
 </script>
 

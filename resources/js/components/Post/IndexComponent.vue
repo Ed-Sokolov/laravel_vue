@@ -105,7 +105,7 @@ export default {
 
         isEdit(id) {
             return this.editPostId === id;
-        }
+        },
     },
 }
 </script>

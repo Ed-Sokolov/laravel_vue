@@ -34,6 +34,7 @@ export default {
                 .then(response => {
                     this.title = null;
                     this.text = null;
+                    this.$parent.$refs.index.getPosts();
                 })
         }
     }
