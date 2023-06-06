@@ -37,7 +37,7 @@ export default {
                     this.$parent.$refs.index.getPosts();
                 })
         }
-    }
+    },
 }
 </script>
 
