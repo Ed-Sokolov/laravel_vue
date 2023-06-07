@@ -2,7 +2,7 @@
     <div>
         <HeaderComponent></HeaderComponent>
     </div>
-    <div>
+    <div class="p-5">
         <RouterView></RouterView>
     </div>
 </template>

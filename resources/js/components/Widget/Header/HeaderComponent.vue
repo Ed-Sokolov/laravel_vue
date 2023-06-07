@@ -1,10 +1,7 @@
 <template>
     <ul class="nav justify-content-center">
         <li class="nav-item">
-            <RouterLink to="/posts" class="nav-link">Posts</RouterLink>
-        </li>
-        <li class="nav-item">
-            <RouterLink to="/tags" class="nav-link">Tags</RouterLink>
+            <RouterLink :to="{ name: 'posts.index' }" class="nav-link">Posts</RouterLink>
         </li>
     </ul>
 </template>
