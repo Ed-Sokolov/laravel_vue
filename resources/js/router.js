@@ -13,6 +13,16 @@ const router = createRouter({
             component: () => import("./components/Post/Create.vue"),
             name: 'posts.create'
         },
+        {
+            path: '/posts/:id',
+            component: () => import("./components/Post/Show.vue"),
+            name: 'posts.show'
+        },
+        {
+            path: '/posts/:id/edit',
+            component: () => import("./components/Post/Edit.vue"),
+            name: 'posts.edit'
+        },
     ]
 });
 
