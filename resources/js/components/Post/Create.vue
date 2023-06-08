@@ -13,22 +13,20 @@
                 <textarea v-model="text" class="form-control" id="text" rows="3" placeholder="Enter text"></textarea>
             </div>
             <div class="form-group">
-                <button @click.prevent="store" type="submit" class="btn btn-primary">Add</button>
+                <button :disabled="isDisabled" @click.prevent="store" type="submit" class="btn btn-primary">Add</button>
             </div>
         </form>
     </div>
 </template>
 
 <script>
-import router from "@/router.js";
-
 export default {
     name: "Create",
 
     data() {
         return {
-            title: null,
-            text: null
+            title: '',
+            text: ''
         }
     },
 
@@ -39,8 +37,14 @@ export default {
                 text: this.text
             })
                 .then(response => {
-                    router.push({name: 'posts.index'});
+                    this.$router.push({name: 'posts.index'});
                 })
+        }
+    },
+
+    computed: {
+        isDisabled() {
+            return this.title?.trim() === '' || this.text?.trim() === ''
         }
     }
 }

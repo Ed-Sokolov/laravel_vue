@@ -18,7 +18,7 @@
                 <th scope="row">{{ post.id }}</th>
                 <td>{{ post.title }}</td>
                 <td>{{ post.text }}</td>
-                <td>{{ post.category_id === null ? 'Not has' : post.category_id }}</td>
+                <td>{{ post.category === null ? 'Not has' : post.category }}</td>
                 <td>
                     <div class="d-flex flex-column gap-2">
                         <RouterLink :to="{ name: 'posts.show', params: {id: post.id} }" class="btn btn-primary">Show
@@ -51,7 +51,7 @@ export default {
     methods: {
         index() {
             axios.get('/api/posts')
-                .then(response => this.posts = response.data)
+                .then(response => this.posts = response.data.data)
         },
 
         destroy(id) {

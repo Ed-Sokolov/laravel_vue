@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import router from "@/router.js";
-
 export default {
     name: "Show",
 
@@ -44,12 +42,12 @@ export default {
     methods: {
         show() {
             axios.get(`/api/posts/${this.id}`)
-                .then(response => this.post = response.data)
+                .then(response => this.post = response.data.data)
         },
 
         destroy() {
             axios.delete(`/api/posts/${this.id}`)
-                .then(response => router.push({name: 'posts.index'}))
+                .then(response => this.$router.push({name: 'posts.index'}))
         }
     }
 }
