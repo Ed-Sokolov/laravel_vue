@@ -35,29 +35,26 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
     name: "Index",
 
-    data() {
-        return {
-            posts: null
-        }
-    },
-
     mounted() {
-        this.index()
+        this.$store.dispatch('getPosts')
     },
 
     methods: {
-        index() {
-            axios.get('/api/posts')
-                .then(response => this.posts = response.data.data)
-        },
-
         destroy(id) {
-            axios.delete(`/api/posts/${id}`)
-                .then(response => this.index())
+            this.$store.dispatch('destroyPost', id)
+                .then(response => this.$store.dispatch('getPosts'))
         }
+    },
+
+    computed: {
+        ...mapGetters({
+            posts: 'posts'
+        })
     }
 }
 </script>

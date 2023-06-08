@@ -19,36 +19,31 @@
         </table>
     </div>
     <div v-if="post" class="d-flex gap-2">
-        <RouterLink :to="{ name: 'posts.edit', params: {id} }" class="btn btn-success">Edit</RouterLink>
-        <button href="#" @click.prevent="destroy" class="btn btn-danger">Delete</button>
+        <RouterLink :to="{ name: 'posts.edit', params: {id: post.id} }" class="btn btn-success">Edit</RouterLink>
+        <button href="#" @click.prevent="destroy(post.id)" class="btn btn-danger">Delete</button>
     </div>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
     name: "Show",
 
-    data() {
-        return {
-            id: this.$route.params.id
-        }
-    },
-
     mounted() {
-        this.$store.dispatch('getPost', this.id);
+        this.$store.dispatch('getPost', this.$route.params.id)
     },
 
     methods: {
-        destroy() {
-            axios.delete(`/api/posts/${this.id}`)
-                .then(response => this.$router.push({name: 'posts.index'}))
+        destroy(id) {
+            this.$store.dispatch('destroyPost', id)
         }
     },
 
     computed: {
-        post() {
-            return this.$store.getters.post
-        }
+        ...mapGetters({
+            post: 'post'
+        })
     }
 }
 </script>
