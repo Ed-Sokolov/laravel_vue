@@ -19,7 +19,7 @@
         </table>
     </div>
     <div v-if="post" class="d-flex gap-2">
-        <RouterLink :to="{ name: 'posts.edit', params: {id: this.id} }" class="btn btn-success">Edit</RouterLink>
+        <RouterLink :to="{ name: 'posts.edit', params: {id} }" class="btn btn-success">Edit</RouterLink>
         <button href="#" @click.prevent="destroy" class="btn btn-danger">Delete</button>
     </div>
 </template>
@@ -30,24 +30,24 @@ export default {
 
     data() {
         return {
-            id: this.$route.params.id,
-            post: null
+            id: this.$route.params.id
         }
     },
 
     mounted() {
-        this.show()
+        this.$store.dispatch('getPost', this.id);
     },
 
     methods: {
-        show() {
-            axios.get(`/api/posts/${this.id}`)
-                .then(response => this.post = response.data.data)
-        },
-
         destroy() {
             axios.delete(`/api/posts/${this.id}`)
                 .then(response => this.$router.push({name: 'posts.index'}))
+        }
+    },
+
+    computed: {
+        post() {
+            return this.$store.getters.post
         }
     }
 }

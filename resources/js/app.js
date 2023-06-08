@@ -2,6 +2,7 @@ import './bootstrap';
 import {createApp} from 'vue';
 import router from "@/router.js";
 import Index from "@/components/Index.vue";
+import store from "@/store";
 
 const app = createApp({
     el: '#app',
@@ -11,6 +12,7 @@ const app = createApp({
 });
 
 app.use(router);
+app.use(store);
 
 // app.component('post-component', PostComponent);
 
