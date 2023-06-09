@@ -23,6 +23,16 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
+            Route::get('', 'IndexController');
+            Route::post('', 'StoreController');
+            Route::get('/{post}', 'ShowController');
+            Route::patch('/{post}', 'UpdateController');
+            Route::delete('/{post}', 'DestroyController');
+        });
+    });
 });
 
 Route::group(['namespace' => 'User'], function () {
@@ -31,10 +41,4 @@ Route::group(['namespace' => 'User'], function () {
     });
 });
 
-Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
-    Route::get('', 'IndexController');
-    Route::post('', 'StoreController');
-    Route::get('/{post}', 'ShowController');
-    Route::patch('/{post}', 'UpdateController');
-    Route::delete('/{post}', 'DestroyController');
-});
+
