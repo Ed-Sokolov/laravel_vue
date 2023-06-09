@@ -1,7 +1,6 @@
 <template>
-    <div>
+    <div class="edica-loader"></div>
         <HeaderComponent></HeaderComponent>
-    </div>
     <div class="p-5">
         <RouterView></RouterView>
     </div>

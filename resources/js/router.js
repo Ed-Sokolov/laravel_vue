@@ -4,6 +4,11 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
+          path: '/',
+          component: () => import("./components/Main/Index.vue"),
+          name: 'main.index'
+        },
+        {
             path: '/posts',
             component: () => import("./components/Post/Index.vue"),
             name: 'posts.index'
@@ -23,6 +28,16 @@ const router = createRouter({
             component: () => import("./components/Post/Edit.vue"),
             name: 'posts.edit'
         },
+        {
+            path: '/auth/login',
+            component: () => import("./components/Auth/Login.vue"),
+            name: 'auth.login'
+        },
+        {
+            path: '/auth/registration',
+            component: () => import("./components/Auth/Registration.vue"),
+            name: 'auth.registration'
+        }
     ]
 });
 

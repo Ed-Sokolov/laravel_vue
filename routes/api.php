@@ -18,7 +18,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function() {
+Route::group(['namespace' => 'User'], function () {
+    Route::group(['namespace' => 'Register', 'prefix' => 'auth'], function () {
+        Route::post('register', 'StoreController')->name('auth.register.store');
+    });
+});
+
+Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
     Route::get('', 'IndexController')->name('posts.index');
     Route::post('', 'StoreController')->name('posts.store');
     Route::get('/{post}', 'ShowController')->name('posts.show');

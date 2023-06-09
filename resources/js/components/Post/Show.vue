@@ -1,6 +1,6 @@
 <template>
     <div class="mb-3">
-        <a @click.prevent="$router.go(-1)" class="btn btn-outline-primary">Back</a>
+        <RouterLink :to="{name: 'posts.index'}" class="btn btn-outline-primary">Back to posts</RouterLink>
     </div>
     <div v-if="post" class="mb-3">
         <table class="table table-striped table-dark">
