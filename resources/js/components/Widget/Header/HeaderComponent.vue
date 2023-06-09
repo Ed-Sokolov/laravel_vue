@@ -35,7 +35,7 @@ export default {
 
     data() {
         return {
-            logoSrc: "assets/images/logo.svg"
+            logoSrc: "/assets/images/logo.svg"
         }
     }
 }

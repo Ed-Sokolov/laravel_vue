@@ -18,16 +18,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+});
+
 Route::group(['namespace' => 'User'], function () {
     Route::group(['namespace' => 'Register', 'prefix' => 'auth'], function () {
-        Route::post('register', 'StoreController')->name('auth.register.store');
+        Route::post('register', 'StoreController');
     });
 });
 
 Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
-    Route::get('', 'IndexController')->name('posts.index');
-    Route::post('', 'StoreController')->name('posts.store');
-    Route::get('/{post}', 'ShowController')->name('posts.show');
-    Route::patch('/{post}', 'UpdateController')->name('posts.update');
-    Route::delete('/{post}', 'DestroyController')->name('posts.destroy');
+    Route::get('', 'IndexController');
+    Route::post('', 'StoreController');
+    Route::get('/{post}', 'ShowController');
+    Route::patch('/{post}', 'UpdateController');
+    Route::delete('/{post}', 'DestroyController');
 });
