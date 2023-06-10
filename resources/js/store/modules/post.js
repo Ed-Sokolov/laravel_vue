@@ -1,4 +1,5 @@
 import router from "@/router.js";
+import api from "@/config/api/api.js";
 
 const state = {
     posts: null,
@@ -16,29 +17,29 @@ const getters = {
 
 const actions = {
     getPosts({commit}) {
-        axios.get('/api/posts')
+        api.get('/api/auth/posts')
             .then(response => commit('setPosts', response.data.data))
     },
 
     getPost({commit}, id) {
-        axios.get(`/api/posts/${id}`)
+        api.get(`/api/auth/posts/${id}`)
             .then(response => commit('setPost', response.data.data))
     },
 
     storePost({}, data) {
         let {title, text} = data;
-        axios.post('/api/posts', {title, text})
+        api.post('/api/auth/posts', {title, text})
             .then(response => router.push({name: 'posts.index'}))
     },
 
     updatePost({}, data) {
         let {id, title, text} = data;
-        axios.patch(`/api/posts/${id}`, {title, text})
+        api.patch(`/api/auth/posts/${id}`, {title, text})
             .then(response => router.push({name: 'posts.show', params: {id}}))
     },
 
     destroyPost({}, id) {
-        axios.delete(`/api/posts/${id}`)
+        api.delete(`/api/auth/posts/${id}`)
             .then(response => router.push({name: 'posts.index'}))
     }
 }
