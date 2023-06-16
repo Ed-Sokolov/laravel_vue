@@ -11,11 +11,17 @@
                     <div class="form-group">
                         <label for="email">Email address</label>
                         <input type="email" v-model="email" class="form-control" id="email" placeholder="Enter email">
+                        <div v-if="errors && errors.email" class="alert alert-danger mt-3" role="alert">
+                            {{ errors.email }}
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" v-model="password" class="form-control" id="password"
                                placeholder="Password">
+                        <div v-if="errors && errors.password" class="alert alert-danger mt-3" role="alert">
+                            {{ errors.password }}
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="password-confirm">Confirm password</label>
@@ -38,7 +44,8 @@ export default {
             name: '',
             email: '',
             password: '',
-            password_confirm: ''
+            password_confirm: '',
+            errors: {}
         }
     },
 
@@ -46,8 +53,16 @@ export default {
         register() {
             let {name, email, password, password_confirm} = this;
 
-            axios.post('/api/auth/register', {name, email, password, password_confirm})
-                .then(response => this.$router.push({name: 'auth.login'}))
+            this.$store.dispatch('logUp', {name, email, password, password_confirm})
+                .catch(error => {
+                    this.errors = {}
+
+                    const errors = error.response.data.errors
+
+                    for (let error in errors) {
+                        this.errors[error] = errors[error][0]
+                    }
+                })
         }
     }
 }

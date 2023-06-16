@@ -16,8 +16,10 @@ class StoreController extends Controller
 
         $data['password'] = Hash::make($data['password']);
 
-        User::create($data);
+        $user = User::create($data);
 
-        return response([]);
+        $token = auth()->tokenById($user->id);
+
+        return response(['access_token' => $token]);
     }
 }

@@ -10,8 +10,8 @@ const getters = {
 }
 
 const actions = {
-    logIn({commit}, data) {
-        api.post('/api/auth/login', data)
+    async logIn({commit}, data) {
+        return await axios.post('/api/auth/login', data)
             .then(response => {
                 const token = response.data.access_token
 
@@ -20,6 +20,21 @@ const actions = {
                 commit('setAuthToken', token)
 
                 router.push({name: 'main.index'})
+            })
+    },
+
+    async logUp({commit}, data) {
+        return await axios.post('/api/auth/register', data)
+            .then(response => {
+                if (response.status === 200) {
+                    const token = response.data.access_token
+
+                    localStorage.setItem('access_token', token)
+
+                    commit('setAuthToken', token)
+
+                    router.push({name: 'main.index'})
+                }
             })
     },
 

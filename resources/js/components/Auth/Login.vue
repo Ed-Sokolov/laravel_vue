@@ -13,6 +13,9 @@
                         <input type="password" v-model="password" class="form-control" id="password" placeholder="Password">
                     </div>
                     <button @click.prevent="login" type="submit" class="btn btn-primary">Sign In</button>
+                    <div v-if="error" class="alert alert-danger mt-3" role="alert">
+                        {{ error }}
+                    </div>
                 </form>
             </div>
         </div>
@@ -26,7 +29,8 @@ export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            error: null
         }
     },
 
@@ -35,6 +39,9 @@ export default {
             let {email, password} = this;
 
             this.$store.dispatch('logIn', {email, password})
+                .catch(error => {
+                    this.error = error.response.data.error
+                })
         }
     }
 }
