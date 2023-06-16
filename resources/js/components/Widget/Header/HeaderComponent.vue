@@ -20,8 +20,14 @@
                         </li>
                     </ul>
                     <div class="btn-group mt-2 mt-lg-0" role="group" aria-label="Basic example">
-                        <RouterLink :to="{ name: 'auth.login' }" class="btn btn-info">Sign In</RouterLink>
-                        <RouterLink :to="{ name: 'auth.registration' }" class="btn btn-info">Sign Up</RouterLink>
+                        <template v-if="$store.getters.authToken">
+                            <RouterLink :to="{ name: 'personal.index' }" class="btn btn-info">Personal</RouterLink>
+                            <button @click.prevent="logout" class="btn btn-info">Log Out</button>
+                        </template>
+                        <template v-else>
+                            <RouterLink :to="{ name: 'auth.login' }" class="btn btn-info">Sign In</RouterLink>
+                            <RouterLink :to="{ name: 'auth.registration' }" class="btn btn-info">Sign Up</RouterLink>
+                        </template>
                     </div>
                 </div>
             </nav>
@@ -35,7 +41,13 @@ export default {
 
     data() {
         return {
-            logoSrc: "/assets/images/logo.svg"
+            logoSrc: "/assets/images/logo.svg",
+        }
+    },
+
+    methods: {
+        logout() {
+            this.$store.dispatch('logOut')
         }
     }
 }

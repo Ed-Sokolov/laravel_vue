@@ -1,7 +1,7 @@
 import axios from "axios";
 import router from "@/router.js";
 
-const getToken = (name = 'access_token') => localStorage.getItem(name)
+export const getToken = (name = 'access_token') => localStorage.getItem(name)
 
 const setTokenInConfig = config => {
     const token = getToken()
