@@ -16,29 +16,29 @@ const getters = {
 }
 
 const actions = {
-    getPosts({commit}) {
-        api.get('/api/posts')
+    async getPosts({commit}) {
+        await api.get('/api/posts')
             .then(response => commit('setPosts', response.data.data))
     },
 
-    getPost({commit}, id) {
-        api.get(`/api/posts/${id}`)
+    async getPost({commit}, id) {
+        await api.get(`/api/posts/${id}`)
             .then(response => commit('setPost', response.data.data))
     },
 
-    storePost({}, data) {
-        api.post('/api/posts', data)
+    async storePost({}, data) {
+        await api.post('/api/posts', data)
             .then(response => router.push({name: 'posts.index'}))
     },
 
-    updatePost({}, data) {
+    async updatePost({}, data) {
         let {id, title, text} = data;
-        api.patch(`/api/posts/${id}`, {title, text})
+        await api.patch(`/api/posts/${id}`, {title, text})
             .then(response => router.push({name: 'posts.show', params: {id}}))
     },
 
-    destroyPost({}, id) {
-        api.delete(`/api/posts/${id}`)
+    async destroyPost({}, id) {
+        await api.delete(`/api/posts/${id}`)
             .then(response => router.push({name: 'posts.index'}))
     }
 }

@@ -41,7 +41,8 @@ export default {
     mounted() {
         this.dropzone = new Dropzone(this.$refs.dropzone, {
             url: '/',
-            autoProcessQueue: false
+            autoProcessQueue: false,
+            addRemoveLinks: true
         })
 
         this.$store.commit('setPost', {title: '', text: ''})
@@ -55,6 +56,8 @@ export default {
 
             files.forEach(file => {
                 data.append('images[]', file)
+
+                this.dropzone.removeFile(file)
             })
 
             data.append('title', this.post.title)
