@@ -27,8 +27,7 @@ const actions = {
     },
 
     storePost({}, data) {
-        let {title, text} = data;
-        api.post('/api/posts', {title, text})
+        api.post('/api/posts', data)
             .then(response => router.push({name: 'posts.index'}))
     },
 

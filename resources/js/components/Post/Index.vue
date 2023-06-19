@@ -2,9 +2,6 @@
     <div class="mb-3">
         <RouterLink :to="{ name: 'posts.create' }" class="btn btn-primary">Create post</RouterLink>
     </div>
-    <div ref="dropzone" class="mb-3 btn p-5 bg-dark text-white text-center w-25">
-        Upload
-    </div>
     <div v-if="posts">
         <table class="table table-striped table-dark">
             <thead>
@@ -44,16 +41,7 @@ import {mapGetters} from "vuex";
 export default {
     name: "Index",
 
-    data() {
-        return {
-            dropzone: null
-        }
-    },
-
     mounted() {
-        this.dropzone = new Dropzone(this.$refs.dropzone, {
-            url: '/'
-        })
         this.$store.dispatch('getPosts')
     },
 

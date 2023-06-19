@@ -11,12 +11,16 @@ use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
-    public function __invoke(StoreRequest $request)
+    public function __invoke()
     {
-        $data = $request->validated();
-
-        $post = Post::create($data);
-
-        return new PostResource($post);
+        dd(\request()->all());
     }
+//    public function __invoke(StoreRequest $request)
+//    {
+//        $data = $request->validated();
+//
+//        $post = Post::create($data);
+//
+//        return new PostResource($post);
+//    }
 }

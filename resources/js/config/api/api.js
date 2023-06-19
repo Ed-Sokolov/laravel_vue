@@ -26,7 +26,7 @@ api.interceptors.request.use(config => setTokenInConfig(config), error => {
 
 api.interceptors.response.use(config => setTokenInConfig(config), error => {
     if (error.response.data.message === 'Token has expired') {
-        return axios.post('api/auth/refresh', {}, {
+        return axios.post('/api/auth/refresh', {}, {
             headers: {
                 'authorization': `Bearer ${getToken()}`
             }
