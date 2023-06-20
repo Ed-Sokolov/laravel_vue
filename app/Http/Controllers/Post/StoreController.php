@@ -27,11 +27,18 @@ class StoreController extends Controller
 
             $filePath = Storage::disk('public')->putFileAs('/images', $image, $name);
 
+            $previewName = "prev_$name";
+
             Image::create([
                 'path' => $filePath,
-                'url' => url('/storage/' . $filePath),
+                'url' => url("/storage/$filePath"),
+                'preview_url' => url("/storage/images/$previewName"),
                 'post_id' => $post->id
             ]);
+
+            \Intervention\Image\Facades\Image::make($image)
+                ->fit(100, 100)
+                ->save(storage_path("app/public/images/$previewName"));
         }
 
         return new PostResource($post);

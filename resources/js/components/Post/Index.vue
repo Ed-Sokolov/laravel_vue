@@ -10,6 +10,7 @@
                 <th scope="col">Title</th>
                 <th scope="col">Text</th>
                 <th scope="col">Category</th>
+                <th scope="col">Preview</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -19,6 +20,13 @@
                 <td>{{ post.title }}</td>
                 <td>{{ post.text }}</td>
                 <td>{{ post.category === null ? 'Not has' : post.category }}</td>
+                <td>
+                    <div class="d-flex gap-2 align-items-center">
+                        <template v-for="image in post['images']" >
+                            <img :src="image['preview_url']" alt="">
+                        </template>
+                    </div>
+                </td>
                 <td>
                     <div class="d-flex flex-column gap-2">
                         <RouterLink :to="{ name: 'posts.show', params: {id: post.id} }" class="btn btn-primary">Show
