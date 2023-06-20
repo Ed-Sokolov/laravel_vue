@@ -1,5 +1,6 @@
 import './bootstrap';
 import {createApp} from 'vue';
+import Vue3Editor from "vue3-editor";
 import router from "@/router.js";
 import Index from "@/components/Index.vue";
 import store from "@/store";

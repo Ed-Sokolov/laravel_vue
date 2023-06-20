@@ -19,6 +19,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <VueEditor
+                    v-model="content"
+                    useCustomImageHandler
+                    @image-added="handleImageAdded"
+                ></VueEditor>
+            </div>
+            <div class="form-group">
                 <button :disabled="isDisabled" @click.prevent="store" type="submit" class="btn btn-primary">Add</button>
             </div>
         </form>
@@ -28,13 +35,20 @@
 <script>
 import {mapGetters} from "vuex";
 import {Dropzone} from "dropzone";
+import {VueEditor} from "vue3-editor";
+import api from "@/config/api/api.js";
 
 export default {
     name: "Create",
 
+    components: {
+      VueEditor
+    },
+
     data() {
         return {
-            dropzone: null
+            dropzone: null,
+            content: 'Hello'
         }
     },
 
@@ -64,6 +78,21 @@ export default {
             data.append('text', this.post.text)
 
             this.$store.dispatch('storePost', data)
+        },
+
+        handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+            const formData = new FormData();
+            formData.append("image", file);
+
+            api.post('/api/posts/images', formData)
+                .then(result => {
+                    const url = result.data.url; // Get url from response
+                    Editor.insertEmbed(cursorLocation, "image", url);
+                    resetUploader();
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
     },
 
