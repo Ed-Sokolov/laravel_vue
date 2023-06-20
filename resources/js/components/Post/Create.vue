@@ -45,7 +45,7 @@ export default {
             addRemoveLinks: true
         })
 
-        this.$store.commit('setPost', {title: '', text: ''})
+        this.$store.commit('setPost', {title: '', text: '', images: null})
     },
 
     methods: {

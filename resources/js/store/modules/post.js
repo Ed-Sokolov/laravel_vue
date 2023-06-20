@@ -5,7 +5,8 @@ const state = {
     posts: null,
     post: {
         title: '',
-        text: ''
+        text: '',
+        images: null
     }
 }
 

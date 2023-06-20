@@ -12,11 +12,18 @@
             </thead>
             <tbody>
             <tr v-for="(item, key) in post" :key="key">
-                <td>{{ key }}</td>
-                <td>{{ item === null ? 'Not has' : item }}</td>
+                <template v-if="key !== 'images'">
+                    <td>{{ key }}</td>
+                    <td>{{ item === null ? 'Not has' : item }}</td>
+                </template>
             </tr>
             </tbody>
         </table>
+    </div>
+    <div v-if="post" class="mb-3 bg-dark p-3 d-flex gap-3 align-items-center">
+        <template v-for="image in post['images']">
+            <img :src="image['url']" alt="" class="w-25">
+        </template>
     </div>
     <div v-if="post" class="d-flex gap-2">
         <RouterLink :to="{ name: 'posts.edit', params: {id: post.id} }" class="btn btn-success">Edit</RouterLink>
