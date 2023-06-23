@@ -48,6 +48,7 @@ export default {
     data() {
         return {
             dropzone: null,
+            idImagesForDeleting: []
         }
     },
 
@@ -58,20 +59,49 @@ export default {
             addRemoveLinks: true
         })
 
+        this.dropzone.on('removedfile', file => {
+            this.idImagesForDeleting.push(file.id)
+        })
+
         this.$store.dispatch('getPost', this.$route.params.id)
             .then(() => {
                 this.post.images.forEach(image => {
-                        let file = {name: image.name, size: image.size};
-                        this.dropzone.displayExistingFile(file, image.url);
-                    })
+                    let file = {id: image.id, name: image.name, size: image.size};
+                    this.dropzone.displayExistingFile(file, image.url);
+                })
             })
     },
 
     methods: {
         update() {
-            this.post.text = document.querySelector('.ql-editor').innerHTML;
+            const text = document.querySelector('.ql-editor').innerHTML;
 
-            this.$store.dispatch('updatePost', this.post)
+            const formData = new FormData()
+
+            const files = this.dropzone.getAcceptedFiles()
+
+            files.forEach(file => {
+                formData.append('images[]', file)
+
+                this.dropzone.removeFile(file)
+            })
+
+            this.idImagesForDeleting.forEach(idForDeleting => {
+                if (idForDeleting) {
+                    formData.append('id_images_for_deleting[]', idForDeleting)
+                }
+            })
+
+            formData.append('title', this.post.title)
+            formData.append('text', text)
+            formData.append('_method', 'PATCH')
+
+            const data = {
+                id: this.post.id,
+                formData
+            }
+
+            this.$store.dispatch('updatePost', data)
         },
 
         handleImageAdded(file, Editor, cursorLocation, resetUploader) {

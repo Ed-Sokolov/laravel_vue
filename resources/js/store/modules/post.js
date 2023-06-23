@@ -33,8 +33,8 @@ const actions = {
     },
 
     async updatePost({}, data) {
-        let {id, title, text} = data;
-        await api.patch(`/api/posts/${id}`, {title, text})
+        let {id, formData} = data;
+        await api.post(`/api/posts/${id}`, formData)
             .then(response => router.push({name: 'posts.show', params: {id}}))
     },
 
