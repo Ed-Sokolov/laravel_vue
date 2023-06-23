@@ -1,17 +1,27 @@
 <template>
     <div class="mb-3">
-        <RouterLink :to="{name: 'posts.show', params: {id: post.id}}" class="btn btn-outline-primary">Back to post</RouterLink>
+        <RouterLink :to="{name: 'posts.show', params: {id: post.id}}" class="btn btn-outline-primary">Back to post
+        </RouterLink>
     </div>
     <div v-if="post">
-        <form class="d-flex flex-column gap-3 w-50">
+        <form class="d-flex flex-column gap-3 w-75">
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" v-model="post.title" class="form-control" id="title" placeholder="Enter title">
             </div>
             <div class="form-group">
-                <label for="text">Example textarea</label>
-                <textarea v-model="post.text" class="form-control" id="text" rows="3"
-                          placeholder="Enter text"></textarea>
+                <label for="text">Text</label>
+                <VueEditor
+                    v-model="post.text"
+                    useCustomImageHandler
+                    @image-added="handleImageAdded"
+                    placeholder="Enter text"
+                ></VueEditor>
+            </div>
+            <div class="form-group">
+                <div ref="dropzone" class="btn p-5 bg-dark text-white text-center">
+                    Upload images
+                </div>
             </div>
             <div class="form-group">
                 <button :disabled="isDisabled" @click.prevent="update" type="submit" class="btn btn-success">Update
@@ -23,18 +33,66 @@
 
 <script>
 import {mapGetters} from "vuex";
+import {VueEditor} from "vue3-editor";
+import api from "@/config/api/api.js";
+import {setCursorAfterAddingImageInEditor} from "@/functional/setCursorAfterAddingImageInEditor.js";
+import {Dropzone} from "dropzone";
 
 export default {
     name: "Edit",
 
+    components: {
+        VueEditor
+    },
+
+    data() {
+        return {
+            dropzone: null,
+        }
+    },
+
     mounted() {
+        this.dropzone = new Dropzone(this.$refs.dropzone, {
+            url: '/',
+            autoProcessQueue: false,
+            addRemoveLinks: true
+        })
+
         this.$store.dispatch('getPost', this.$route.params.id)
+            .then(() => {
+                this.post.images.forEach(image => {
+                        let file = {name: image.name, size: image.size};
+                        this.dropzone.displayExistingFile(file, image.url);
+                    })
+            })
     },
 
     methods: {
         update() {
+            this.post.text = document.querySelector('.ql-editor').innerHTML;
+
             this.$store.dispatch('updatePost', this.post)
         },
+
+        handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+            const formData = new FormData();
+            formData.append("image", file);
+
+            api.post('/api/posts/images', formData)
+                .then(result => {
+                    const url = result.data.url;
+                    Editor.insertEmbed(cursorLocation, "image", url);
+
+                    Editor.container.querySelector(`img[src="${url}"]`).classList.add("img-fluid");
+
+                    setCursorAfterAddingImageInEditor(Editor, url)
+
+                    resetUploader();
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
     },
 
     computed: {
@@ -46,6 +104,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+.dz-success-mark,
+.dz-error-mark {
+    display: none;
+}
 
 </style>

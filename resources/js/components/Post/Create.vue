@@ -3,7 +3,7 @@
         <RouterLink :to="{name: 'posts.index'}" class="btn btn-outline-primary">Back to posts</RouterLink>
     </div>
     <div v-if="post">
-        <form class="d-flex flex-column gap-3 w-50">
+        <form class="d-flex flex-column gap-3 w-75">
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" v-model="post.title" class="form-control" id="title" placeholder="Enter title">
