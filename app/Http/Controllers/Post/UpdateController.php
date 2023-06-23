@@ -21,7 +21,9 @@ class UpdateController extends Controller
 
         $dropImages = isset($data['id_images_for_deleting']) ? $data['id_images_for_deleting'] : null;
 
-        unset($data['images'], $data['id_images_for_deleting']);
+        $dropUrlImages = isset($data['url_images_for_deleting']) ? $data['url_images_for_deleting'] : null;
+
+        unset($data['images'], $data['id_images_for_deleting'], $data['url_images_for_deleting']);
 
         $currentImages = $post->images;
 
@@ -53,6 +55,14 @@ class UpdateController extends Controller
                 \Intervention\Image\Facades\Image::make($image)
                     ->fit(100, 100)
                     ->save(storage_path("app/public/images/$previewName"));
+            }
+        }
+
+        if($dropUrlImages) {
+            foreach ($dropUrlImages as $dropUrlImage) {
+                $removeStr = $request->root() . '/storage/';
+                $path = str_replace($removeStr, '', $dropUrlImage);
+                Storage::disk('public')->delete($path);
             }
         }
 

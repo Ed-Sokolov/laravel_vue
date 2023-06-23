@@ -46,6 +46,7 @@ export default {
     data() {
         return {
             dropzone: null,
+            urlImagesForDeleting: []
         }
     },
 
@@ -73,6 +74,12 @@ export default {
                 this.dropzone.removeFile(file)
             })
 
+            this.urlImagesForDeleting.forEach(urlForDeleting => {
+                if (urlForDeleting) {
+                    data.append('url_images_for_deleting[]', urlForDeleting)
+                }
+            })
+
             data.append('title', this.post.title)
             data.append('text', text)
 
@@ -97,6 +104,10 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
+        },
+
+        handleImageRemoved(url) {
+            this.urlImagesForDeleting.push(url)
         }
     },
 

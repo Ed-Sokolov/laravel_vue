@@ -15,6 +15,7 @@
                     v-model="post.text"
                     useCustomImageHandler
                     @image-added="handleImageAdded"
+                    @image-removed="handleImageRemoved"
                     placeholder="Enter text"
                 ></VueEditor>
             </div>
@@ -48,7 +49,8 @@ export default {
     data() {
         return {
             dropzone: null,
-            idImagesForDeleting: []
+            idImagesForDeleting: [],
+            urlImagesForDeleting: []
         }
     },
 
@@ -92,6 +94,12 @@ export default {
                 }
             })
 
+            this.urlImagesForDeleting.forEach(urlForDeleting => {
+                if (urlForDeleting) {
+                    formData.append('url_images_for_deleting[]', urlForDeleting)
+                }
+            })
+
             formData.append('title', this.post.title)
             formData.append('text', text)
             formData.append('_method', 'PATCH')
@@ -122,6 +130,10 @@ export default {
                 .catch(err => {
                     console.log(err);
                 });
+        },
+
+        handleImageRemoved(url) {
+            this.urlImagesForDeleting.push(url)
         }
     },
 
