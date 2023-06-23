@@ -9,21 +9,18 @@
                 <input type="text" v-model="post.title" class="form-control" id="title" placeholder="Enter title">
             </div>
             <div class="form-group">
-                <label for="text">Example textarea</label>
-                <textarea v-model="post.text" class="form-control" id="text" rows="3"
-                          placeholder="Enter text"></textarea>
+                <label for="text">Text</label>
+                <VueEditor
+                    v-model="post.text"
+                    useCustomImageHandler
+                    @image-added="handleImageAdded"
+                    placeholder="Enter text"
+                ></VueEditor>
             </div>
             <div class="form-group">
                 <div ref="dropzone" class="btn p-5 bg-dark text-white text-center">
                     Upload images
                 </div>
-            </div>
-            <div class="form-group">
-                <VueEditor
-                    v-model="content"
-                    useCustomImageHandler
-                    @image-added="handleImageAdded"
-                ></VueEditor>
             </div>
             <div class="form-group">
                 <button :disabled="isDisabled" @click.prevent="store" type="submit" class="btn btn-primary">Add</button>
@@ -37,18 +34,18 @@ import {mapGetters} from "vuex";
 import {Dropzone} from "dropzone";
 import {VueEditor} from "vue3-editor";
 import api from "@/config/api/api.js";
+import {setCursorAfterAddingImageInEditor} from "@/functional/setCursorAfterAddingImageInEditor.js";
 
 export default {
     name: "Create",
 
     components: {
-      VueEditor
+        VueEditor
     },
 
     data() {
         return {
             dropzone: null,
-            content: 'Hello'
         }
     },
 
@@ -64,6 +61,8 @@ export default {
 
     methods: {
         store() {
+            const text = document.querySelector('.ql-editor').innerHTML;
+
             const data = new FormData()
 
             const files = this.dropzone.getAcceptedFiles()
@@ -75,7 +74,7 @@ export default {
             })
 
             data.append('title', this.post.title)
-            data.append('text', this.post.text)
+            data.append('text', text)
 
             this.$store.dispatch('storePost', data)
         },
@@ -86,8 +85,13 @@ export default {
 
             api.post('/api/posts/images', formData)
                 .then(result => {
-                    const url = result.data.url; // Get url from response
+                    const url = result.data.url;
                     Editor.insertEmbed(cursorLocation, "image", url);
+
+                    Editor.container.querySelector(`img[src="${url}"]`).classList.add("img-fluid");
+
+                    setCursorAfterAddingImageInEditor(Editor, url)
+
                     resetUploader();
                 })
                 .catch(err => {
@@ -105,6 +109,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+.dz-success-mark,
+.dz-error-mark {
+    display: none;
+}
 
 </style>

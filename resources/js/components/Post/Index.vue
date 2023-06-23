@@ -8,7 +8,6 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
-                <th scope="col">Text</th>
                 <th scope="col">Category</th>
                 <th scope="col">Preview</th>
                 <th scope="col">Actions</th>
@@ -18,7 +17,6 @@
             <tr v-for="post in posts" :key="post.id">
                 <th scope="row">{{ post.id }}</th>
                 <td>{{ post.title }}</td>
-                <td>{{ post.text }}</td>
                 <td>{{ post.category === null ? 'Not has' : post.category }}</td>
                 <td>
                     <div class="d-flex gap-2 align-items-center">
@@ -43,7 +41,6 @@
 </template>
 
 <script>
-import {Dropzone} from "dropzone";
 import {mapGetters} from "vuex";
 
 export default {

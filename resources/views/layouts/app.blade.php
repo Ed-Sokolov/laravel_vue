@@ -19,23 +19,27 @@
 
     <link rel="stylesheet" href="{{ asset('assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/font-awesome/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendors/aos/aos.css') }}">
+{{--    <link rel="stylesheet" href="{{ asset('assets/vendors/aos/aos.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/loader.js') }}"></script>
 </head>
 <body>
 <div id="app">
-    @yield('content')
+    <div class="aos-init" v-cloak>
+        @yield('content')
+    </div>
 </div>
-<script src="{{ asset('assets/vendors/popper.js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/vendors/aos/aos.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
+<script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
+{{--<script src="{{ asset('assets/vendors/aos/aos.js') }}"></script>--}}
+<script src="{{ asset('assets/vendors/popper.js/popper.min.js') }}"></script>
+
 <script>
-    AOS.init({
-        duration: 1000
-    });
+    // AOS.init({
+    //     duration: 1000
+    // });
 </script>
 </body>
 </html>

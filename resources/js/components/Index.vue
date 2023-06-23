@@ -1,14 +1,15 @@
 <template>
     <div class="edica-loader"></div>
-        <HeaderComponent></HeaderComponent>
-    <div class="p-5">
-        <RouterView></RouterView>
+    <HeaderComponent></HeaderComponent>
+    <div class="p-5" data-aos="fade-up">
+        <RouterView ></RouterView>
     </div>
 </template>
 
 <script>
 import HeaderComponent from "@/components/Widget/Header/HeaderComponent.vue";
 import {getToken} from "@/config/api/api.js";
+
 export default {
     name: "Index",
 
